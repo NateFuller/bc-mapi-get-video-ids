@@ -106,13 +106,12 @@ function toCSV(video_ids, error) {
 	});
 }
 
-if (process.argv.length !== 4) {
-	console.log('USAGE: node getVideoIds.js [publisher_id] [mapi_read_token]');
+if (process.argv.length !== 3) {
+	console.log('USAGE: node getVideoIds.js [mapi_read_token]');
 	process.exit();
 }
 
-var pub_id = process.argv[2]
-var token = process.argv[3]
+var token = process.argv[2]
 
 var ITEMS_PER_PAGE = 100;
 
