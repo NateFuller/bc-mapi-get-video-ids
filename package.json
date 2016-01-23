@@ -1,0 +1,29 @@
+{
+  "name": "bc-mapi-get-video-ids",
+  "version": "1.0.0",
+  "description": "A Node project for obtaining a comma separated list of all video IDs from a Brightcove account using a publisher ID and MAPI Read token as input.",
+  "main": "getVideoIds.js",
+  "scripts": {
+    "start": "node getVideoIds.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NateFuller/bc-mapi-get-video-ids.git"
+  },
+  "keywords": [
+    "brightcove",
+    "media",
+    "api",
+    "mapi",
+    "read",
+    "video",
+    "ids"
+  ],
+  "author": "Nathan Fuller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NateFuller/bc-mapi-get-video-ids/issues"
+  },
+  "homepage": "https://github.com/NateFuller/bc-mapi-get-video-ids#readme"
+}
