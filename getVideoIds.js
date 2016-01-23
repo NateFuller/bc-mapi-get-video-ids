@@ -1,4 +1,5 @@
 var http = require('http');
+var fs = require('fs');
 
 function getItemCount(callback) {
 	var options = {
@@ -60,7 +61,7 @@ function getVideoIds() {
 					if (completed_requests == urls.length) {
 						console.log("all done!");
 						console.log("Number of video IDs returned: " + video_ids.length);
-						testVideoIdsAreUnique(video_ids);
+						testVideoIdsAreUnique(video_ids, toCSV);
 					}
 				});
 			});
@@ -74,7 +75,7 @@ function getVideoIds() {
 	});	
 }
 
-function testVideoIdsAreUnique(video_ids) {
+function testVideoIdsAreUnique(video_ids, callback) {
 	var sorted_arr = video_ids.sort();
 	var duplicates = [];
 	for (var i = 0; i < sorted_arr.length - 1; i++) {
@@ -83,10 +84,26 @@ function testVideoIdsAreUnique(video_ids) {
 		}
 	}
 	if (duplicates.length > 0) {
-		console.log("Duplicates found: ", duplicates);
+		callback(undefined, "Duplicates found: " + duplicates.toString());
 	} else {
 		console.log("All video IDs are unique!");
+		callback(video_ids);
 	}
+}
+
+function toCSV(video_ids, error) {
+	if (error) {
+		console.log(error);
+		process.exit();
+	}
+	fs.writeFile("./videoIdsToView.txt", video_ids.toString(), function(err) {
+		if (err) {
+			console.log(err);
+			process.exit();
+		}
+
+		console.log("videoIdsToView.txt was successfully created!");
+	});
 }
 
 if (process.argv.length !== 4) {
