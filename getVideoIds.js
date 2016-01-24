@@ -86,7 +86,7 @@ function testVideoIdsAreUnique(video_ids, callback) {
 		callback(undefined, undefined, "Duplicates found: " + duplicates.toString());
 	} else {
 		console.log("All video IDs are unique!");
-		callback(video_ids, 'newline');
+		callback(video_ids, 'comma');
 	}
 }
 
