@@ -47,7 +47,6 @@ function getVideoIds() {
 
 		for (url in urls) {
 			var req = http.request(urls[url], function(res) {
-				// console.log('STATUS: ' + res.statusCode);
 				// console.log('HEADERS: ' + JSON.stringify(res.headers));
 				res.setEncoding('utf8');
 				var str = ''
@@ -61,7 +60,7 @@ function getVideoIds() {
 					if (completed_requests == urls.length) {
 						console.log("all done!");
 						console.log("Number of video IDs returned: " + video_ids.length);
-						testVideoIdsAreUnique(video_ids, toCSV);
+						testVideoIdsAreUnique(video_ids, toFile);
 					}
 				});
 			});
@@ -84,25 +83,30 @@ function testVideoIdsAreUnique(video_ids, callback) {
 		}
 	}
 	if (duplicates.length > 0) {
-		callback(undefined, "Duplicates found: " + duplicates.toString());
+		callback(undefined, undefined, "Duplicates found: " + duplicates.toString());
 	} else {
 		console.log("All video IDs are unique!");
-		callback(video_ids);
+		callback(video_ids, 'newline');
 	}
 }
 
-function toCSV(video_ids, error) {
+function toFile(video_ids, format, error) {
 	if (error) {
 		console.log(error);
 		process.exit();
 	}
-	fs.writeFile("./videoIdsToView.txt", video_ids.toString(), function(err) {
+	var output = video_ids.toString(); // comma separated by default
+	if (format && format === 'newline') {
+		output = video_ids.toString().replace(/,/g,'\n');
+	}
+	fs.writeFile("./videoIdsToView.txt", output, function(err) {
 		if (err) {
 			console.log(err);
 			process.exit();
 		}
 
 		console.log("videoIdsToView.txt was successfully created!");
+		console.timeEnd('script-length');
 	});
 }
 
@@ -110,6 +114,8 @@ if (process.argv.length !== 3) {
 	console.log('USAGE: node getVideoIds.js [mapi_read_token]');
 	process.exit();
 }
+
+console.time('script-length');
 
 var token = process.argv[2]
 
